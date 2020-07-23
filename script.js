@@ -60,4 +60,3 @@ function startQuiz() {
     // - Check if the time ran out
     // - If the time ran out finishQuiz()
 }
-console.log(questTitle)
