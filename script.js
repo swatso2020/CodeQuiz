@@ -1,16 +1,23 @@
+//Declare Variables
 var currentQuestion=0;
 var currentScore=0;
-var currentTime=45;
+var currentTime=10;
 var nextBtn =document.getElementById("next")
-var questionContainer=document.getElementById("container");
+var questionContainer=document.getElementById("QuestionContainer");
 var startBtn = document.getElementById("start")
 var stopBtn =document.getElementById("finish")
 var interval;
+var checkAnswer = document.getElementById("check")
+var currScore = document.getElementById("currScore")
+var highScore = document.getElementById("highScore")
+var person = prompt("Enter your initials")
 
 
 startBtn.addEventListener("click",startQuiz)
 nextBtn.addEventListener("click",showNextQuestion)
 stopBtn.addEventListener("click",finishQuiz)
+
+
 questionContainer.addEventListener("click",function(event) {
     if(event.target.matches("li")) {
         var answer=event.target.innerText;
@@ -19,12 +26,19 @@ questionContainer.addEventListener("click",function(event) {
 
         if(answer===question.answer) {
             currentScore++;
+            checkAnswer.innerText ="Correct!"
+            showHidden();
+            console.log(currentScore)
         } else {
             currentTime=currentTime-5;
+            checkAnswer.innerText ="Incorrect"
+            showHidden();
         }
         currentQuestion++;
+        
         if(currentQuestion>=questions.length) {
             finishQuiz();
+          
         } else {
             showCurrentQuestion();
         }       
@@ -32,16 +46,37 @@ questionContainer.addEventListener("click",function(event) {
     }
 });
 
+
+showHighScores();
+hideBeforeTestBegins();
+currScore.innerText=currentScore
+
 function showHighScores() {
     //Retrieve high scores
     //Display high scores
-    
+    highScore.innerText = localStorage.getItem("highscore");    
 }
 
+
+ function hideBeforeTestBegins(){
+    checkAnswer.style.display ='none';
+
+ }
+function hideAfterTestBegins(){
+startBtn.style.display = 'none';
+
+ }
+ function showHidden(){
+checkAnswer.style.display ='block';
+ }
 function finishQuiz() {
-    clearInterval(currentTime);
     //Display the score
     //Store in the high scores if higher than previous score
+    highScore.innerText = localStorage.getItem("highscore");
+    localStorage.setItem ("highscore", currentScore);
+    input
+    
+  
 }
 
 var questions=[
@@ -60,6 +95,7 @@ var questions=[
 
 
 function showCurrentQuestion() {
+    
     var question=questions[currentQuestion];
     questionContainer.innerHTML="";
 
@@ -106,24 +142,30 @@ var time = document.getElementById("timer")
 
 function timedCount() {
     time.innerText = currentTime
-    currentTime--
-    if(currentTime==0){
-        alert("time out")
+    
+    
+    if(currentTime>=0){
+        currentTime--
+    }else{
+        time.innerText = "time out"
+       
     }
+
 } 
   
 
-
-function startQuiz() {
-    showCurrentQuestion();
-    timedCount();
-    setInterval(timedCount,1000)
-
-
-    // Set the interval to run every  second
+   // Set the interval to run every  second
     // - Update the time counter
     // - Check if the time ran out
     // - If the time ran out finishQuiz()
 
-  
+function startQuiz() {
+   // Hide an element
+  hideAfterTestBegins();
+    showHighScores();
+    
+    showCurrentQuestion();
+
+    timedCount();
+    setInterval(timedCount,1000) 
 }
