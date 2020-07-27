@@ -1,7 +1,7 @@
 //Declare Variables
 var currentQuestion=0;
 var currentScore=0;
-var currentTime=10;
+var currentTime=45;
 var nextBtn =document.getElementById("next")
 var questionContainer=document.getElementById("QuestionContainer");
 var startBtn = document.getElementById("start")
@@ -10,7 +10,11 @@ var interval;
 var checkAnswer = document.getElementById("check")
 var currScore = document.getElementById("currScore")
 var highScore = document.getElementById("highScore")
-var person = prompt("Enter your initials")
+var userInitals = document.getElementById("initals")
+var statsCont = document.getElementById("stats-container")
+
+
+
 
 
 startBtn.addEventListener("click",startQuiz)
@@ -54,7 +58,8 @@ currScore.innerText=currentScore
 function showHighScores() {
     //Retrieve high scores
     //Display high scores
-    highScore.innerText = localStorage.getItem("highscore");    
+    highScore.innerText = localStorage.getItem("highscore");  
+    userInitals.innerText = localStorage.getItem("initals");    
 }
 
 
@@ -64,6 +69,7 @@ function showHighScores() {
  }
 function hideAfterTestBegins(){
 startBtn.style.display = 'none';
+statsCont.style.display = 'none';
 
  }
  function showHidden(){
@@ -72,23 +78,42 @@ checkAnswer.style.display ='block';
 function finishQuiz() {
     //Display the score
     //Store in the high scores if higher than previous score
-    highScore.innerText = localStorage.getItem("highscore");
+    var person = prompt("Enter your initials")
     localStorage.setItem ("highscore", currentScore);
-    input
+    localStorage.setItem ("initals", person);
+    highScore.innerText = localStorage.getItem("highscore");
+    userInitals.innerText = localStorage.getItem("initals");
+    
+    
     
   
 }
 
 var questions=[
     {
-        question:"What is your name?",
-        options:["john doe","jack sparrow"],
-        answer:"john doe"
+        question:"Commonly used data types DO NOT inclue:?",
+        options:["1.strings","2.booleans","3.alerts","4.Numbers"],
+        answer:"3.alerts"
     },
     {
-        question:"What is your lastname?",
-        options:["something","something else"],
-        answer:"something"
+        question:"Arrays in JavaScript can be used to store",
+        options:["1.Numbers and strings","2.other arrays","3.booleans","4.all of the above"],
+        answer:"4.all of the above",
+    },
+    {
+        question:"String values must be enclosed within________when being assigned to variables",
+        options:["1.commas","2.curly brackets","3. quotes","4.parentheses"],
+        answer:"3. quotes",
+    },
+    {
+        question:"A very useful tool used during development and debugging for printing content to the debugger",
+        options:["1.JavaScript","2.terminal/bash","3.for loops","4.console.log"],
+        answer:"4.console.log",
+    },
+    {
+        question:"Was this an awesome quiz?!?!",
+        options:["1.Yes","2.absolutley","3.I have not seen a better quiz","4.all of the above"],
+        answer:"4.all of the above",
     }
 ];
 
@@ -148,7 +173,7 @@ function timedCount() {
         currentTime--
     }else{
         time.innerText = "time out"
-       
+       finishQuiz();
     }
 
 } 
