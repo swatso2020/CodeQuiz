@@ -5,21 +5,21 @@ var currentTime=5;
 var nextBtn =document.getElementById("next")
 var questionContainer=document.getElementById("QuestionContainer");
 var startBtn = document.getElementById("start")
-var stopBtn =document.getElementById("finish")
+var stopBtn =document.getElementById("Submit")
 var interval;
 var checkAnswer = document.getElementById("check")
 var currScore = document.getElementById("currScore")
 var highScore = document.getElementById("highScore")
-var userInitals = document.getElementById("initals")
+var userInitals = document.getElementById("sInitals")
 var statsCont = document.getElementById("stats-container")
+var userInput = document.getElementById("userInput")
 
 
 
 
 
 startBtn.addEventListener("click",startQuiz)
-nextBtn.addEventListener("click",showNextQuestion)
-stopBtn.addEventListener("click",finishQuiz)
+
 
 
 questionContainer.addEventListener("click",function(event) {
@@ -65,14 +65,26 @@ function showHighScores() {
 
  function hideBeforeTestBegins(){
     checkAnswer.style.display ='none';//hides the correct or incorrect status until the check is done
+   
+userInput.style.display = "none"
 
  }
 function hideAfterTestBegins(){
 startBtn.style.display = 'none';//hides the start button when the test begins
 statsCont.style.display = 'none';//hides the stats when the test test begins
+userInput.style.display = "none";
+}
 
+function showAfterTestFinishes(){
+    userInput.style.display = "block";
+}
 
- }
+function hideAftertest(){
+    questionContainer.style.display = "none";
+
+}
+
+ 
  function showHidden(){
 checkAnswer.style.display ='block';//shows if the answer is correct or incorrect if when the user chooses the answer
  }
@@ -164,7 +176,7 @@ function timedCount() {
        
     }
 } 
-var person = prompt("Enter your initials")
+
 
    // Set the interval to run every  second
     // - Update the time counter
@@ -182,7 +194,8 @@ function startQuiz() {
 function finishQuiz() {
     //Display the score
     //Store in the high scores if higher than previous score
-    
+    showAfterTestFinishes();
+    hideAftertest();
     localStorage.setItem ("highscore", currentScore);
     localStorage.setItem ("initals", person);
     highScore.innerText = localStorage.getItem("highscore");
