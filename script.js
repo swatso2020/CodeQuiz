@@ -1,7 +1,7 @@
 //Declare Variables
 var currentQuestion=0;
 var currentScore=0;
-var currentTime=45;
+var currentTime=5;
 var nextBtn =document.getElementById("next")
 var questionContainer=document.getElementById("QuestionContainer");
 var startBtn = document.getElementById("start")
@@ -40,7 +40,7 @@ questionContainer.addEventListener("click",function(event) {
         }
         currentQuestion++;
         
-        if(currentQuestion>=questions.length) {
+        if(currentQuestion>=questions.length||currentTime>=0) {
             finishQuiz();
           
         } else {
@@ -64,30 +64,19 @@ function showHighScores() {
 
 
  function hideBeforeTestBegins(){
-    checkAnswer.style.display ='none';
+    checkAnswer.style.display ='none';//hides the correct or incorrect status until the check is done
 
  }
 function hideAfterTestBegins(){
-startBtn.style.display = 'none';
-statsCont.style.display = 'none';
+startBtn.style.display = 'none';//hides the start button when the test begins
+statsCont.style.display = 'none';//hides the stats when the test test begins
+
 
  }
  function showHidden(){
-checkAnswer.style.display ='block';
+checkAnswer.style.display ='block';//shows if the answer is correct or incorrect if when the user chooses the answer
  }
-function finishQuiz() {
-    //Display the score
-    //Store in the high scores if higher than previous score
-    var person = prompt("Enter your initials")
-    localStorage.setItem ("highscore", currentScore);
-    localStorage.setItem ("initals", person);
-    highScore.innerText = localStorage.getItem("highscore");
-    userInitals.innerText = localStorage.getItem("initals");
-    
-    
-    
-  
-}
+
 
 var questions=[
     {
@@ -164,20 +153,18 @@ var time = document.getElementById("timer")
 
 
 
-
 function timedCount() {
     time.innerText = currentTime
-    
-    
     if(currentTime>=0){
         currentTime--
     }else{
-        time.innerText = "time out"
-       finishQuiz();
+        time.innerText = "times Up"
+        finishQuiz();
+       
+       
     }
-
 } 
-  
+var person = prompt("Enter your initials")
 
    // Set the interval to run every  second
     // - Update the time counter
@@ -188,9 +175,18 @@ function startQuiz() {
    // Hide an element
   hideAfterTestBegins();
     showHighScores();
-    
     showCurrentQuestion();
-
     timedCount();
     setInterval(timedCount,1000) 
+}
+function finishQuiz() {
+    //Display the score
+    //Store in the high scores if higher than previous score
+    
+    localStorage.setItem ("highscore", currentScore);
+    localStorage.setItem ("initals", person);
+    highScore.innerText = localStorage.getItem("highscore");
+    userInitals.innerText = localStorage.getItem("initals");
+    showHighScores() 
+  
 }
